@@ -408,34 +408,131 @@ class SnippetsPage extends SingleTextboxPage
 					.appendTo(select)
 		defer.resolve()
 
+fsError = (e) ->
+	if typeof(e.code) isnt 'number'
+		return "Invalid fileSystem error object"
+	for key, value of e
+		if e.code is value and /_ERR$/.test(key)
+			return key
+	return "Unknown fileSystem error code: #{e.code}"
+
+openFileSystem = do ->
+	$fs = null
+	return ->
+		defer = $.Deferred()
+		if $fs isnt null
+			return defer.resolve($fs)
+		success = (fs) => # fileSystem
+			$fs = fs
+			defer.resolve(fs)
+			return
+		error = (e) ->
+			defer.reject("Cannot access filesystem: #{fsError(e)}", e)
+			return
+		webkitRequestFileSystem(PERSISTENT, 10*1024*1024, success, error)
+		return defer
+
+findFile = (name, opts) ->
+	openFileSystem().then (fs) ->
+		defer = $.Deferred()
+		success = (fe) -> # fileEntry
+			defer.resolve(fe)
+			return
+		error = (e) ->
+			defer.reject("Cannot find #{name}: #{fsError(e)}", e)
+			return
+		fs.root.getFile(name, opts, success, error)
+		return defer
+
+removeFile = (name) ->
+	findFile(name, { create:false }).then (fe) ->
+		defer = $.Deferred()
+		success = ->
+			defer.resolve()
+			return
+		error = (e) ->
+			defer.reject("Cannot remove #{name}: #{fsError(e)}", e)
+			return
+		fe.remove(success, error)
+		return defer
+
+openFile = (name, opts) ->
+	findFile(name, opts).then (fe) ->
+		defer = $.Deferred()
+		success = (fh) -> # fileHandle
+			defer.resolve(fh)
+			return
+		error = (e) ->
+			defer.reject("Cannot open #{name}: #{fsError(e)}", e)
+			return
+		fe.file(success, error)
+		return defer
+
+openFileWriter = (name, opts) ->
+	findFile(name, opts).then (fe) ->
+		defer = $.Deferred()
+		success = (fw) -> # FileWriter
+			defer.resolve(fw)
+			return
+		error = (e) ->
+			defer.reject("Cannot open #{name} for writing: #{fsError(e)}", e)
+			return
+		fe.createWriter(success, error)
+		return defer
+
+readFile = (name, opts = { create:false }) ->
+	openFile(name, opts).then (fh) ->
+		defer = $.Deferred()
+		reader = new FileReader()
+		reader.onloadend = ->
+			defer.resolve(reader.result)
+			return
+		reader.onerror = (e) ->
+			defer.reject("Cannot read #{name}: #{fsError(e)}", e)
+			return
+		reader.readAsText(fh)
+		return defer
+
+writeFile = (name, data, opts = { create:true }) ->
+	openFileWriter(name, opts).then (fw) ->
+		defer = $.Deferred()
+		fw.onwriteend = ->
+			defer.resolve(data)
+			return
+		fw.onerror = (e) ->
+			defer.reject("Cannot write #{name}: #{fsError(e)}", e)
+			return
+		blob = new Blob([data], { type:'text/plain' })
+		fw.write(blob)
+		return defer
+
 class ValueAutoSaver
 	timerId: null
 	constructor: (@name, @input) ->
 		@load()
 		@timeoutHandler = => @timeout()
 		@input.on 'change keyup', => @start(); return
-	load: -> # localStorage to DOM
-		defer = $.Deferred()
-		chrome.storage.sync.get @name, (data) =>
-			if chrome.runtime.lastError
-				defer.reject("Error loading #{@name}: #{chrome.runtime.lastError.message}")
-				return
-			value = data[@name]
-			@input.val(value ? '')
-			defer.resolve()
+	load: -> # fileSystem to DOM
+		readFile(@name)
+		.then null, (error, e) ->
+			if e.code is e.NOT_FOUND_ERR
+				return $.Deferred().resolve("")
+			return arguments # no change
+		.done (data) =>
+			@input.val(data)
 			return
-		return defer
-	save: -> # DOM to localStorage
-		defer = $.Deferred()
-		obj = {}
-		obj[@name] = @input.val()
-		chrome.storage.sync.set obj, =>
-			if chrome.runtime.lastError
-				defer.reject("Error saving #{@name}: #{chrome.runtime.lastError.message}")
-				return
-			defer.resolve()
-			return
-		return defer
+		# return readFile()'s chained defer
+	save: -> # DOM to fileSystem
+		removeFile(@name)
+		.then null, (error, e) ->
+			if e.code is e.NOT_FOUND_ERR
+				return $.Deferred().resolve()
+			return arguments # no change
+		.then =>
+			if (data = @input.val()) is ""
+				return "" # no data to save, resolve defer
+			return writeFile(@name, data) # defer
+		# return removeFile()'s chained defer
 	start: ->
 		if @timerId isnt null then clearTimeout(@timerId)
 		@timerId = setTimeout(@timeoutHandler, 1000)

@@ -18,6 +18,9 @@
 
   "permissions": [
     "storage",
+    "unlimitedStorage",
+    "fileSystem",
+    "fileSystem.write",
     "audioCapture",
     "clipboardWrite"
   ],
