@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Speech</title>
+		<link rel="stylesheet" href="speech.css">
+		<script src="jquery-1.9.1.min.js"></script>
+		<script src="speech.js"></script>
+	</head>
+	<body>
+		<iframe id="prettifier" src="prettifier.html" style="display:none"></iframe>
+		<div id="titlebar" class="layout"></div>
+		<div id="content">
+			<div id="main-page" class="page">
+				<div id="header" class="layout">
+					<button id="start" disabled="disabled">Opening</button>
+					<button id="prettify">Prettify</button>
+					<button id="menu-rules" class="edit">&larr; edit</button>
+					<select id="snippets"></select>
+					<button id="menu-snippets" class="edit">&larr; edit</button>
+					<select id="language"></select>
+					<button id="menu-langs" class="edit">&larr; edit</button>
+					<a id="github" href="https://github.com/andre-luiz-dos-santos/speech-app" target="_blank">Source</a>
+				</div>
+				<div id="interim" class="layout">...</div>
+				<textarea id="text"></textarea>
+				<div id="autosave"></div>
+				<div id="help" class="layout">
+					Press <span class="key">Escape</span> to start/stop.<br>
+					Selecting any text will copy it automatically.<br>
+					Press <span class="key">Control-C</span> anywhere to run Prettify and copy all text.<br>
+					Press <span class="key">Control-X</span> anywhere to run Prettify and cut all text.<br>
+					Spoken text is added at the cursor position, replacing selected text.
+				</div>
+			</div>
+			<div class="doing screen" style="display:none">
+				<div class="message"></div>
+			</div>
+			<div class="alert screen" style="display:none">
+				<div class="message"></div>
+				<div class="buttonset">
+					<button class="ok blue">OK</button>
+				</div>
+			</div>
+			<div id="langs-page" class="page" style="display:none">
+				<h1 class="layout">Languages Selection</h1>
+				<textarea rows="20"></textarea>
+				<div class="buttonset layout">
+					<button id="save-langs" class="blue">Save</button>
+					<button id="reset-langs" class="blue">Reset</button>
+				</div>
+			</div>
+			<div id="rules-page" class="page" style="display:none">
+				<h1 class="layout">Prettification Rules</h1>
+				<textarea rows="20"></textarea>
+				<div class="buttonset layout">
+					<button id="save-rules" class="blue">Save</button>
+					<button id="reset-rules" class="blue">Reset</button>
+				</div>
+			</div>
+			<div id="snippets-page" class="page" style="display:none">
+				<h1 class="layout">Snippets</h1>
+				<textarea rows="20"></textarea>
+				<div class="buttonset layout">
+					<button id="save-snippets" class="blue">Save</button>
+					<button id="reset-snippets" class="blue">Reset</button>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

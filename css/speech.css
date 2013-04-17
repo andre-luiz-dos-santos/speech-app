@@ -1,0 +1,116 @@
+html {
+  margin: 0px;
+  padding: 0px;
+  overflow: hidden;
+}
+body {
+	margin: 0px;
+	padding: 0px;
+}
+
+#titlebar {
+	-webkit-app-region: drag;
+	text-align: center;
+	font-weight: bold;
+	background-color: rgb(140, 209, 252);
+	color: rgb(73, 89, 153);
+	padding: 0.1em 0px;
+	min-height: 0.5em;
+}
+#content {
+	margin: 0px;
+	padding: 3px;
+	border: 3px solid rgb(140, 209, 252);
+	border-top: 0px none black;
+}
+
+#header {
+	-webkit-app-region: drag;
+	margin: -3px -3px 0 -3px;
+	padding: 3px 3px 0 3px;
+}
+#header * {
+	-webkit-app-region: no-drag;
+}
+#header button, #header select {
+	height: 2em;
+}
+#github {
+	float: right;
+}
+
+div.screen {
+	background-color: white;
+	position: absolute;
+	top: 0px;
+	bottom: 0px;
+	left: 0px;
+	right: 0px;
+}
+div.alert.screen {
+	z-index: 9999;
+}
+div.doing.screen {
+	z-index: 8888;
+}
+.screen .message {
+	text-align: center;
+	margin: 2em 0px;
+}
+
+button#start {
+	width: 6em;
+	height: 1.6em;
+	font-size: 1.5em;
+	border-radius: 0.5em;
+}
+#start:not(:disabled) {
+	color: white;
+	background-color: green;
+}
+#start.on:not(:disabled) {
+	color: white;
+	background-color: red;
+}
+#interim {
+	font-size: 1.4em;
+	color: gray;
+}
+button {
+	cursor: pointer;
+}
+#help .key {
+	font-weight: bold;
+	color: #006;
+}
+#autosave {
+	float: right;
+	color: gray;
+}
+
+#text {
+	font-family: consolas;
+	font-size: 1.2em;
+}
+textarea {
+	resize: none;
+	border: 1px solid green;
+}
+
+.buttonset {
+	text-align: center;
+}
+button.blue {
+	width: 6em;
+	height: 2em;
+	color: white;
+	background-color: blue;
+	font-size: 1.1em;
+	border-radius: 0.5em;
+}
+.page h1 {
+	text-align: center;
+	margin-top: 0px;
+	margin-bottom: 10px;
+	padding-top: 0px;
+}

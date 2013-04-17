@@ -1,0 +1,27 @@
+{
+  "name": "Speech",
+  "version": "0.1",
+  "manifest_version": 2,
+
+  "description": "Dictation / Speech Recognition",
+  "icons": { "512": "mic.png" },
+
+  "app": {
+    "background": {
+      "scripts": [
+        "background.js"
+      ]
+    }
+  },
+
+  "minimum_chrome_version": "26",
+
+  "permissions": [
+    "storage",
+    "audioCapture",
+    "clipboardWrite"
+  ],
+  "sandbox": {
+    "pages": ["prettifier.html"]
+  }
+}
