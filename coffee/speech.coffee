@@ -463,6 +463,9 @@ class TextAutoSaver extends ValueAutoSaver
 			now = new Date()
 			@div.text('Last saved: ' + now.toLocaleTimeString())
 			return
+		.fail (message) =>
+			@div.text(message)
+			return
 		# return defer
 	start: ->
 		@div.text('May contain unsaved work!')
