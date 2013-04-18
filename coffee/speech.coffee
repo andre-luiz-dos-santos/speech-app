@@ -575,28 +575,25 @@ class TextAutoSaver extends ValueAutoSaver
 
 $ -> # Drag and drop files into any text area
 	$('body').on 'dragenter', 'textarea', (event) ->
-		event.stopPropagation()
-		event.preventDefault()
 		$(event.target).addClass('dragover')
 		return
 	$('body').on 'dragleave drop', 'textarea', (event) ->
-		event.stopPropagation()
-		event.preventDefault()
 		$(event.target).removeClass('dragover')
 		return
 	$('body').on 'drop', 'textarea', (event) ->
-		event.stopPropagation()
-		event.preventDefault()
-		files = event.originalEvent.dataTransfer?.files
-		unless files?.length # no files or length is 0
-			alert("Only files may be dropped here")
-			return # no files dropped
-		if files.length isnt 1
-			alert("Only one file may be dropped here")
-			return
-		file = files[0]
-		doing "Reading file #{file.name}", readFileHandle(file).done (data) ->
-			$(event.target).val(data).triggerHandler('change')
-			return
+		data = event.originalEvent.dataTransfer
+		if typeof(data) isnt 'object'
+			return # possible?
+		if data.files?.length > 0 # dropping files
+			event.stopPropagation()
+			event.preventDefault()
+			if data.files.length > 1
+				alert("Only one file may be dropped here")
+				return
+			file = data.files[0]
+			doing "Reading file #{file.name}", readFileHandle(file).done (data) ->
+				$(event.target).val(data).triggerHandler('change')
+				return
+			return # file dropped successfully
 		return
 	return
