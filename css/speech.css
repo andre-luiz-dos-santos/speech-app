@@ -97,8 +97,8 @@ textarea {
 	border: 1px solid green;
 }
 textarea.dragover {
-	color: red;
-	background-color: red;
+	color: black;
+	background-color: #f99;
 }
 
 .buttonset {
