@@ -429,7 +429,7 @@ openFileSystem = do ->
 		error = (e) ->
 			defer.reject("Cannot access filesystem: #{fsError(e)}", e)
 			return
-		webkitRequestFileSystem(PERSISTENT, 10*1024*1024, success, error)
+		webkitRequestFileSystem(PERSISTENT, 100*1024*1024, success, error)
 		return defer
 
 findFile = (name, opts) ->
@@ -480,18 +480,22 @@ openFileWriter = (name, opts) ->
 		fe.createWriter(success, error)
 		return defer
 
+readFileHandle = (fh) ->
+	defer = $.Deferred()
+	reader = new FileReader()
+	reader.onloadend = ->
+		defer.resolve(reader.result)
+		return
+	reader.onerror = (e) ->
+		defer.reject("Cannot read #{fh.name}: #{fsError(e)}", e)
+		return
+	reader.readAsText(fh)
+	return defer
+
 readFile = (name, opts = { create:false }) ->
 	openFile(name, opts).then (fh) ->
-		defer = $.Deferred()
-		reader = new FileReader()
-		reader.onloadend = ->
-			defer.resolve(reader.result)
-			return
-		reader.onerror = (e) ->
-			defer.reject("Cannot read #{name}: #{fsError(e)}", e)
-			return
-		reader.readAsText(fh)
-		return defer
+		readFileHandle(fh)
+	# return openFile()'s chained defer
 
 writeFile = (name, data, opts = { create:true }) ->
 	openFileWriter(name, opts).then (fw) ->
@@ -567,3 +571,32 @@ class TextAutoSaver extends ValueAutoSaver
 	start: ->
 		@div.text('May contain unsaved work!')
 		super
+
+
+$ -> # Drag and drop files into any text area
+	$('body').on 'dragenter', 'textarea', (event) ->
+		event.stopPropagation()
+		event.preventDefault()
+		$(event.target).addClass('dragover')
+		return
+	$('body').on 'dragleave drop', 'textarea', (event) ->
+		event.stopPropagation()
+		event.preventDefault()
+		$(event.target).removeClass('dragover')
+		return
+	$('body').on 'drop', 'textarea', (event) ->
+		event.stopPropagation()
+		event.preventDefault()
+		files = event.originalEvent.dataTransfer?.files
+		unless files?.length # no files or length is 0
+			alert("Only files may be dropped here")
+			return # no files dropped
+		if files.length isnt 1
+			alert("Only one file may be dropped here")
+			return
+		file = files[0]
+		doing "Reading file #{file.name}", readFileHandle(file).done (data) ->
+			$(event.target).val(data).triggerHandler('change')
+			return
+		return
+	return

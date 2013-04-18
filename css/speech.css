@@ -96,6 +96,10 @@ textarea {
 	resize: none;
 	border: 1px solid green;
 }
+textarea.dragover {
+	color: red;
+	background-color: red;
+}
 
 .buttonset {
 	text-align: center;
