@@ -15,22 +15,32 @@
 				<div id="header" class="layout">
 					<button id="start" disabled="disabled">Opening</button>
 					<button id="prettify">Prettify</button>
-					<button id="menu-rules" class="edit">&larr; edit</button>
 					<select id="snippets"></select>
-					<button id="menu-snippets" class="edit">&larr; edit</button>
 					<select id="language"></select>
-					<button id="menu-langs" class="edit">&larr; edit</button>
-					<a id="github" href="https://github.com/andre-luiz-dos-santos/speech-app" target="_blank">Source</a>
+				</div>
+				<button id="menu-button">≡</button>
+				<div id="menu-list" style="display:none">
+					<div id="menu-rules">Prettify</div>
+					<div id="menu-snippets">Snippets</div>
+					<div id="menu-langs">Languages</div>
+					<a id="github" href="https://github.com/andre-luiz-dos-santos/speech-app" target="_blank">Source at GitHub</a>
+					<div id="menu-quit">Exit</div>
 				</div>
 				<div id="interim" class="layout">...</div>
 				<textarea id="text"></textarea>
 				<div id="autosave"></div>
 				<div id="help" class="layout">
-					Press <span class="key">Escape</span> to start/stop.<br>
-					Selecting any text will copy it automatically.<br>
-					Press <span class="key">Control-C</span> anywhere to run Prettify and copy all text.<br>
-					Press <span class="key">Control-X</span> anywhere to run Prettify and cut all text.<br>
-					Spoken text is added at the cursor position, replacing selected text.
+					<div>
+						Press <span class="key">F1</span> or <span class="key">Control-H</span> for help!
+					</div>
+					<div style="display:none">
+						Press <span class="key">Escape</span> to start/stop.<br>
+						Selecting any text will copy it automatically.<br>
+						Press <span class="key">Control-C</span> anywhere to run Prettify and copy all text.<br>
+						Press <span class="key">Control-X</span> anywhere to run Prettify and cut all text.<br>
+						Spoken text is added at the cursor position, replacing selected text.<br>
+						Press <span class="key">F1</span> or <span class="key">Control-H</span> again to hide!
+					</div>
 				</div>
 			</div>
 			<div class="doing screen" style="display:none">

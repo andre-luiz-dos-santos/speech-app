@@ -22,6 +22,40 @@ body {
 	padding: 3px;
 	border: 3px solid rgb(140, 209, 252);
 	border-top: 0px none black;
+	position: relative;
+}
+
+#menu-button {
+	-webkit-app-region: no-drag;
+	font-size: 1.5em;
+	top: -2px;
+	right: -2px;
+	position: absolute;
+	border-top: none;
+	border-right: none;
+	border-left: 1px solid rgb(140, 209, 252);
+	border-bottom: 1px solid rgb(140, 209, 252);
+}
+#menu-list {
+	-webkit-app-region: no-drag;
+	top: 0px;
+	right: 0px;
+	position: absolute;
+	background-color: white;
+	border: 1px solid rgb(140, 209, 252);
+}
+#menu-list > * {
+	font-family: monospace;
+	font-weight: bold;
+	padding: 1em;
+}
+#menu-list > :hover {
+	color: white;
+	background-color: gray;
+}
+#github {
+	color: blue;
+	display: block;
 }
 
 #header {
@@ -34,9 +68,6 @@ body {
 }
 #header button, #header select {
 	height: 2em;
-}
-#github {
-	float: right;
 }
 
 div.screen {

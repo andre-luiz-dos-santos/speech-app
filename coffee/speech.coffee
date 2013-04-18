@@ -81,6 +81,20 @@ $ ->
 	$('#main-page').layoutPage()
 	return
 
+$ -> # Main menu
+	button = $('#menu-button')
+	list = $('#menu-list')
+	button.on 'click', (event) ->
+		list.slideDown('fast')
+		return
+	list.on 'mouseleave', (event) ->
+		list.hide()
+		return
+	$('#menu-quit').on 'click', (event) ->
+		window.close()
+		return
+	return
+
 $.fn.sumHeights = ->
 	height = 0
 	for elem in @
@@ -115,6 +129,10 @@ switchToPage = (name) ->
 	$('#' + name + '-page').fadeIn().layoutPage()
 	# return the page's <div>
 
+reLayoutPage = ->
+	$('#' + currentPage + '-page').layoutPage()
+	return
+
 prettifyText = ->
 	input = $('#text')
 	doing "Prettifying", prettifier.magic(input.val())
@@ -134,11 +152,22 @@ textCommand = (command) ->
 		toggleListening()
 	return
 
+toggleHelp = null
+$ ->
+	help = $('#help')
+	toggleHelp = ->
+		help.children().toggle()
+		reLayoutPage()
+		return
+
 attachEventHandlers = ->
 	$('body').on 'keydown', (event) ->
 		if currentPage is 'main'
 			if event.which in [27] # Escape
 				toggleListening()
+			# Show/hide help message on Control-H or F1
+			if (event.which is 72 and event.ctrlKey is true) or event.which is 112
+				toggleHelp()
 			# Before copying (Control-C) or cutting (Control-X),
 			# run 'prettify' if nothing is selected,
 			# and then stop listening.
