@@ -28,8 +28,9 @@ body {
 #menu-button {
 	-webkit-app-region: no-drag;
 	font-size: 1.5em;
-	top: -2px;
-	right: -2px;
+	margin: 0px;
+	top: 0px;
+	right: 0px;
 	position: absolute;
 	border-top: none;
 	border-right: none;
@@ -53,8 +54,12 @@ body {
 	color: white;
 	background-color: gray;
 }
+#menu-list > :last-child:hover {
+	background-color: red;
+}
 #github {
 	color: blue;
+	text-decoration: none;
 	display: block;
 }
 
