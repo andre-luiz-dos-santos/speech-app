@@ -246,10 +246,9 @@ startRecognizer = ->
 
 	return true
 
-class SingleTextboxPage
+class Page
 	constructor: ->
 		@page = $('#' + @name + '-page')
-		@textarea = $('textarea', @page)
 		# Restore data
 		doing "Loading", @get().then (data) => @parse(data)
 		# Attach event handlers
@@ -265,10 +264,7 @@ class SingleTextboxPage
 			if chrome.runtime.lastError
 				defer.reject("Error loading #{@name}: #{chrome.runtime.lastError.message}")
 				return
-			value = data[@name]
-			if typeof(value) isnt 'string'
-				value = @default
-			defer.resolve(value)
+			defer.resolve(data[@name] || @default)
 			return
 		return defer
 	set: (data) -> # Save data to storage (and to main page)
@@ -290,19 +286,16 @@ class SingleTextboxPage
 		# return @parse()'s chained promise object
 	open: -> # Show this page
 		switchToPage(@name)
-		@textarea.focus()
 		return
 	close: -> # Back to main page
 		switchToPage('main')
 		return
 	load: -> # storage to DOM
-		@get().done (data) =>
-			@textarea.val(data)
-			return
-		# return defer
+		$.Deferred().resolve()
 	save: -> # DOM to storage
-		@set(@textarea.val())
-		# return defer
+		$.Deferred().resolve()
+	parse: -> # data to main page
+		$.Deferred().resolve()
 	reset: ->
 		defer = $.Deferred()
 		chrome.storage.sync.remove @name, =>
@@ -314,6 +307,23 @@ class SingleTextboxPage
 		parsing = @parse(@default)
 		defer.then => parsing
 		# 'remove' and 'parse' together, but on 'remove' failure, ignore @parse()'s result.
+
+class SingleTextboxPage extends Page
+	constructor: ->
+		super
+		@textarea = $('textarea', @page)
+	open: -> # Show this page
+		super
+		@textarea.focus()
+		return
+	load: -> # storage to DOM
+		@get().done (data) =>
+			@textarea.val(data)
+			return
+		# return defer
+	save: -> # DOM to storage
+		@set(@textarea.val())
+		# return defer
 
 class LanguagesSelectionPage extends SingleTextboxPage
 	name: 'langs'
