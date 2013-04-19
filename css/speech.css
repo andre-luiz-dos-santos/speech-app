@@ -150,7 +150,7 @@ button.blue {
 .page h1 {
 	-webkit-app-region: drag;
 	text-align: center;
-	margin-top: 0px;
-	margin-bottom: 10px;
-	padding-top: 0px;
+	background-color: rgb(140, 209, 252);
+	margin: -3px -3px 10px -3px;
+	padding: 3px 3px 0 3px;
 }
