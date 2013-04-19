@@ -264,7 +264,7 @@ class Page
 			if chrome.runtime.lastError
 				defer.reject("Error loading #{@name}: #{chrome.runtime.lastError.message}")
 				return
-			defer.resolve(data[@name] || @default)
+			defer.resolve(data[@name] ? @default)
 			return
 		return defer
 	set: (data) -> # Save data to storage (and to main page)
@@ -370,13 +370,16 @@ class PrettifyRulesPage extends SingleTextboxPage
 		@default = """
 			# Capitalize these words anywhere.
 			[ /\\b(google|microsoft|portuguese|english|fastville|esperanto|português|inglês)\\b/g, capitalize ]
-			[ /(free|open|net|dragon)bsd\\b/gi, function(_, b) { return capitalize(b) + 'BSD' } ]
+			[ /(free|open|net|dragon)bsd\\b/gi, function(_, a) { return capitalize(a) + 'BSD' } ]
 
 			# Capitalize the first letter of each line.
 			[ /^\\w/gm, capitalize ]
 
 			# Capitalize the first letter after .?!
-			[ /([.?!] )(\\w)/g, function(_, b, a) { return b + capitalize(a) } ]
+			[ /([.?!] )(\\w)/g, function(_, a, b) { return a + capitalize(b) } ]
+
+			# Remove whitespace between end of sentence and .?!
+			[ /(\\w) ([.?!])/g, function(_, a, b) { return a + b } ]
 
 			# Commonly misrecognized words.
 			[ /\\big\\b/gi, 'e' ]

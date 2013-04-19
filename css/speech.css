@@ -128,6 +128,7 @@ button {
 	font-family: consolas;
 	font-size: 1.2em;
 }
+
 textarea {
 	resize: none;
 	border: 1px solid green;
