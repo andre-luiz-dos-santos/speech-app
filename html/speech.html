@@ -6,6 +6,8 @@
 		<link rel="stylesheet" href="speech.css">
 		<script src="jquery-1.9.1.min.js"></script>
 		<script src="speech.js"></script>
+		<script src="languages.js"></script>
+		<script src="filesystem.js"></script>
 	</head>
 	<body>
 		<iframe id="prettifier" src="prettifier.html" style="display:none"></iframe>
@@ -53,6 +55,11 @@
 			</div>
 			<div id="langs-page" class="page" style="display:none">
 				<h1 class="layout">Languages Selection</h1>
+				<div class="layout">
+					Select to add:
+					<select id="lang-names"></select>
+					<select id="lang-dialects"></select>
+				</div>
 				<textarea rows="20"></textarea>
 				<div class="buttonset layout">
 					<button id="save-langs" class="blue">Save</button>
