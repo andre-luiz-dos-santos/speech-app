@@ -32,10 +32,6 @@ body {
 	top: 0px;
 	right: 0px;
 	position: absolute;
-	border-top: none;
-	border-right: none;
-	border-left: 1px solid rgb(140, 209, 252);
-	border-bottom: 1px solid rgb(140, 209, 252);
 }
 #menu-list {
 	-webkit-app-region: no-drag;
@@ -65,8 +61,10 @@ body {
 
 #header {
 	-webkit-app-region: drag;
+	background-color: rgb(140, 209, 252);
 	margin: -3px -3px 0 -3px;
 	padding: 3px 3px 0 3px;
+	padding-bottom: 0.5em;
 }
 #header * {
 	-webkit-app-region: no-drag;

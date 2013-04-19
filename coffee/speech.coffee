@@ -111,7 +111,7 @@ $.fn.layoutPage = ->
 			nextHeights = textarea.nextAll('.layout:visible').sumHeights()
 			# <tag> margin+border+padding
 			# <div#content> has border-top: 0
-			# 20 = ( <div#content> 0+3+3 + <textarea> 0+1+2 <button> 0+1+2 )*2 + 1 (mystery pixel)
+			# 20 = ( <div#content> 0+3+3 + <textarea> 0+1+2 <button> 0+1+2 )*2
 			textarea.height(document.documentElement.clientHeight - prevHeights - nextHeights - 21 + 1)
 			# <tag> margin+border+padding
 			# 20 = ( <div#content> 0+3+3 + <textarea> 0+1+2 )*2

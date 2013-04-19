@@ -1,9 +1,10 @@
 {
-  "name": "Speech",
+  "name": "__MSG_appName__",
   "version": "0.4",
   "manifest_version": 2,
+  "default_locale": "en",
 
-  "description": "Dictation / Speech Recognition",
+  "description": "__MSG_appDescr__",
   "icons": { "512": "mic.png" },
 
   "app": {
