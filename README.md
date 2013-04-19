@@ -2,7 +2,7 @@
 
 ## Installation
 
-1. Download __[speech-0.2.zip](http://sourceforge.net/projects/speech/files/speech-0.2.zip/download)__ and extract it.<br>
+1. Download __[speech-0.3.zip](http://sourceforge.net/projects/speech/files/speech-0.3.zip/download)__ and extract it.<br>
    The _Speech_ application directory will be created.
 2. Open Google Chrome, and type __[chrome://extensions/](chrome://extensions/)__ into the address bar, then press _Enter_.
 3. On the top right corner of the _Extensions_ page, enable __Developer mode__.
