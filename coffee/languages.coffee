@@ -86,20 +86,21 @@ languagesList = [
 				.val(dialect[0]).text(dialect[1])
 		return
 	languageSelect.on 'change', (event) ->
-		return unless languageIndex = $('option:selected', languageSelect).val()
+		languageOption = $(':selected', languageSelect)
+		return unless languageIndex = languageOption.val()
 		if languagesList[languageIndex][1].length is 1
 			dialectSelect.hide()
 			callback(languagesList[languageIndex][1][0], languagesList[languageIndex][0])
-			languageSelect.val('')
+			languageOption.prop('selected', false)
 		else
 			dialectSelect.show()
 			populateDialectSelect(languageIndex)
 		return
 	dialectSelect.on 'change', (event) ->
-		dialectOption = $('option:selected', dialectSelect)
+		dialectOption = $(':selected', dialectSelect)
 		return unless languageCode = dialectOption.val()
 		callback(languageCode, languagesList[languageIndex][0] + ' - ' + dialectOption.text())
-		dialectSelect.val('')
+		dialectOption.prop('selected', false)
 		return
 	populateLanguageSelect()
 	return

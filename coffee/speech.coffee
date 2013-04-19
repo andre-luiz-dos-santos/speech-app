@@ -494,7 +494,6 @@ class TextAutoSaver extends ValueAutoSaver
 		@div.text('May contain unsaved work!')
 		super
 
-
 $ -> # Drag and drop files into any text area
 	$('body').on 'dragenter', 'textarea', (event) ->
 		$(event.target).addClass('dragover')
