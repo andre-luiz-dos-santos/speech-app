@@ -5,4 +5,4 @@ all:
 	cp -R _locales speech/
 	cp images/mic*.png speech/
 	cd coffee && coffee -o ../speech -c *.coffee
-	zip -9 -r -X speech-0.6.zip speech
+	zip -9 -r -X speech-0.7.zip speech

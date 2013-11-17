@@ -69,12 +69,25 @@ addTranscription = do ->
 		elem.setSelectionRange(newPosition, newPosition)
 		return
 
+setTextFont = (font) ->
+	if typeof font isnt 'string' or font is ''
+		return
+	try
+		[family, size] = font.split(/,\s+/)
+		$('#text').css
+			'font-family': (family or 'Arial')
+			'font-size': Number(size or 14)
+	catch e
+		alert("Cannot change font: #{e}")
+	return
+
 $ ->
 	if startRecognizer() is false then return
 	new TextAutoSaver('text', $('#text'))
 	new LanguagesSelectionPage()
 	prettifier = new PrettifyRulesPage()
 	new SnippetsPage()
+	new FontsPage()
 	attachEventHandlers()
 	changeStatus("Start", true)
 	$('#header .edit').fadeTo('slow', 0.5)
@@ -196,6 +209,9 @@ attachEventHandlers = ->
 			addTranscription(select.val())
 			select.val('')
 			return
+		return
+	do (select = $('#font')) ->
+		select.on('change', -> setTextFont(select.val()))
 		return
 	return
 
@@ -443,6 +459,32 @@ class SnippetsPage extends SingleTextboxPage
 					.text(line)
 					.attr('value', line)
 					.appendTo(select)
+		defer.resolve()
+
+class FontsPage extends SingleTextboxPage
+	name: 'fonts'
+	constructor: ->
+		@default = """
+			# Font name, size:
+			Monospace, 14
+			Arial, 12
+			Trebuchet MS, 14
+			Andale Mono, 16
+			Consolas, 28
+			"""
+		super
+	parse: (data) ->
+		defer = $.Deferred()
+		select = $('#font').empty()
+		for line in data.split(/\r*\n+/)
+			if /^\s*(#|$)/.test(line)
+				# Comment or empty
+			else
+				$('<option>')
+					.text(line)
+					.attr('value', line)
+					.appendTo(select)
+		setTextFont(select.val())
 		defer.resolve()
 
 class ValueAutoSaver
