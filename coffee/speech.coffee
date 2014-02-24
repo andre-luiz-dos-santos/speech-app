@@ -5,7 +5,8 @@ currentPage = 'main'
 prettifier = null
 emptyStringRe = /^\s*$/
 
-escapeHTML = (text) -> text
+escapeHTML = (text) ->
+	text
 	.replace(/&/g,'&amp;')
 	.replace(/</g,'&lt;')
 	.replace(/>/g,'&gt;')
