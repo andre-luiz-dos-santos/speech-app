@@ -1,9 +1,8 @@
 {
   "name": "__MSG_appName__",
-  "version": "0.7",
+  "version": "0.8",
   "manifest_version": 2,
   "default_locale": "en",
-
   "description": "__MSG_appDescr__",
   "icons": {
     "16": "mic16.png",
@@ -11,7 +10,6 @@
     "128": "mic128.png",
     "512": "mic512.png"
   },
-
   "app": {
     "background": {
       "scripts": [
@@ -19,9 +17,7 @@
       ]
     }
   },
-
   "minimum_chrome_version": "26",
-
   "permissions": [
     "storage",
     "unlimitedStorage",
@@ -31,6 +27,8 @@
     "clipboardWrite"
   ],
   "sandbox": {
-    "pages": ["prettifier.html"]
+    "pages": [
+      "prettifier.html"
+    ]
   }
 }

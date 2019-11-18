@@ -327,10 +327,10 @@ class Page
 
 class SingleTextboxPage extends Page
 	constructor: ->
-		super
+		super()
 		@textarea = $('textarea', @page)
 	open: -> # Show this page
-		super
+		super()
 		@textarea.focus()
 		return
 	load: -> # storage to DOM
@@ -345,6 +345,7 @@ class SingleTextboxPage extends Page
 class LanguagesSelectionPage extends SingleTextboxPage
 	name: 'langs'
 	constructor: ->
+		super()
 		@default = """
 			# The first word is the language code, used by the speech recognition engine.
 			# The rest of the line is just a label for the language selection box.
@@ -358,7 +359,7 @@ class LanguagesSelectionPage extends SingleTextboxPage
 		createLanguageList 'lang', (code, language) =>
 			@textarea.val("#{code} #{language}\n\n#{@textarea.val()}")
 			return
-		super
+		super()
 	validate: ->
 		if @count() is 0
 			return "At least one language must be specified."
@@ -384,6 +385,7 @@ class PrettifyRulesPage extends SingleTextboxPage
 	name: 'rules'
 	pending: null
 	constructor: ->
+		super()
 		@default = """
 			# Capitalize these words anywhere.
 			[ /\\b(google|microsoft|portuguese|english|fastville|esperanto|português|inglês)\\b/g, capitalize ]
@@ -407,7 +409,7 @@ class PrettifyRulesPage extends SingleTextboxPage
 			if event.data.target is 'prettifyRules'
 				@receive(event.data)
 			return
-		super
+		super()
 	send: (command, data = null) ->
 		if @pending isnt null
 			return bug("PrettifyRulesPage.pending is set") # defer
@@ -437,6 +439,7 @@ class PrettifyRulesPage extends SingleTextboxPage
 class SnippetsPage extends SingleTextboxPage
 	name: 'snippets'
 	constructor: ->
+		super()
 		@default = """
 			?
 			!
@@ -445,7 +448,7 @@ class SnippetsPage extends SingleTextboxPage
 			:-)
 			:-(
 			"""
-		super
+		super()
 	parse: (data) ->
 		defer = $.Deferred()
 		select = $('#snippets').empty()
@@ -465,6 +468,7 @@ class SnippetsPage extends SingleTextboxPage
 class FontsPage extends SingleTextboxPage
 	name: 'fonts'
 	constructor: ->
+		super()
 		@default = """
 			# Font name, size:
 			Monospace, 14
@@ -473,7 +477,7 @@ class FontsPage extends SingleTextboxPage
 			Andale Mono, 16
 			Consolas, 28
 			"""
-		super
+		super()
 	parse: (data) ->
 		defer = $.Deferred()
 		select = $('#font').empty()
@@ -523,22 +527,22 @@ class ValueAutoSaver
 		return ->
 			@timerId = null
 			if saving is null
- 				saving = @save().always -> saving = null; return
- 			else if saving isnt 'scheduled' # and isnt null
- 				saving.always => @save(); return
- 				saving = 'scheduled'
+				saving = @save().always -> saving = null; return
+			else if saving isnt 'scheduled' # and isnt null
+				saving.always => @save(); return
+				saving = 'scheduled'
 			return
 
 class TextAutoSaver extends ValueAutoSaver
 	constructor: ->
-		super
+		super()
 		@div = $('#autosave')
 	load: ->
-		doing "Loading last value", super
+		doing "Loading last value", super()
 		# return defer
 	save: ->
 		@div.text('Saving...')
-		super.done =>
+		super().done =>
 			now = new Date()
 			@div.text('Last saved: ' + now.toLocaleTimeString())
 			return
@@ -548,7 +552,7 @@ class TextAutoSaver extends ValueAutoSaver
 		# return defer
 	start: ->
 		@div.text('May contain unsaved work!')
-		super
+		super()
 
 $ -> # Drag and drop files into any text area
 	$('body').on 'dragenter', 'textarea', (event) ->
